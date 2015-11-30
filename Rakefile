@@ -128,9 +128,18 @@ task :tag, [:profile, :tag_name] do |task, args|
   end
 end
 
-desc 'Generate the site and deploy using the given profile'
 task :deploy, [:profile, :tag_name] => [:check, :tag, :push] do |task, args|
-  msg 'running deploy'
+  msg "running deploy task with #{args}"
+  if ENV['ghprbActualCommit'].to_s != ''
+    wrap_with_progress(ENV['ghprbActualCommit'], Rake::Task[:internal_deploy_task], "#{site_base_path}/#{site_path_suffix}", "Site Deploy", 'Site Deployed', args)
+  else
+    Rake::Task[:internal_test_task].invoke(args)
+  end
+end
+
+desc 'Generate the site and deploy using the given profile'
+task :internal_deploy_task, [:profile, :tag_name] do |task, args|
+  msg "running internal deploy task with #{args}"
   msg "SEARCHISKO_HOST_PORT: #{ENV['SEARCHISKO_HOST_PORT']}"
   # Delay awestruct failing the build until after we rsync files, if we are staging.
   # Allows errors to be viewed
