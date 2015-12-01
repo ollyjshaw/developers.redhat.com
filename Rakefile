@@ -22,7 +22,7 @@ $awestruct_cmd = nil
 $remote = ENV['DEFAULT_REMOTE'] || 'origin'
 task :default => :preview
 
-def wrap_with_progress(sha, rake_task, target_url, context, description, args)
+def wrap_with_progress(sha, rake_task, target_url, context, description, *args)
   begin
     options = {:context => context, :description => description, :target_url => target_url}
     GitHub.update_status($github_org, $github_repo, sha, "pending", options)
