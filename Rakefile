@@ -26,7 +26,7 @@ def wrap_with_progress(sha, rake_task, target_url, context, description, args)
   begin
     options = {:context => context, :description => description, :target_url => target_url}
     GitHub.update_status($github_org, $github_repo, sha, "pending", options)
-    rake_task.invoke
+    rake_task.invoke(args)
     GitHub.update_status($github_org, $github_repo, sha, "success", options)
   rescue => e
     puts GitHub.update_status($github_org, $github_repo, sha, "failure", options)
