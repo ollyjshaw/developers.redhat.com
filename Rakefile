@@ -36,7 +36,7 @@ end
 desc 'Setup the environment to run Awestruct'
 task :test do |task, args|
   if ENV['ghprbActualCommit'].to_s != ''
-    wrap_with_progress(ENV['ghprbActualCommit'], Rake::Task[:internal_test_task], ENV["BUILD_URL"], "Unit Tests", 'Unit testing')
+    wrap_with_progress(ENV['ghprbActualCommit'], Rake::Task[:internal_test_task], ENV["BUILD_URL"], "Unit Tests", 'Unit testing', args)
   else
     Rake::Task[:internal_test_task].invoke
   end
