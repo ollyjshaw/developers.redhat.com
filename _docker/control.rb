@@ -130,7 +130,9 @@ def block_wait_searchisko_configure_finished
   end
 end
 
+puts "~~~~~~~starting"
 tasks = Options.parse ARGV
+puts tasks
 
 if(tasks.empty?)
   puts Options.parse %w(-h)
